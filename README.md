@@ -100,6 +100,6 @@ Setelah instalasi berhasil, ikuti langkah berikut untuk menjalankan aplikasi. An
 
 3.  **Akses Aplikasi**
     Buka browser Anda dan kunjungi alamat berikut:
-    [http://127.0.0.1:8000](http://127.0.0.1:8000)git 
+    [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 Aplikasi portal berita Anda sekarang sudah berjalan dan siap digunakan.
