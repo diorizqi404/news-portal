@@ -25,7 +25,6 @@ class ArticleDashboard extends Component
         $article = Article::find($id);
         if ($article) {
             $article->delete();
-            // refresh pagination view
             $this->resetPage();
         }
     }

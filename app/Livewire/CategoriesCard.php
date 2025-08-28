@@ -13,31 +13,29 @@ class CategoriesCard extends Component
 
     public function createCategory()
     {
-        // Logic to create a new category
-        $this->validate([
-            'categoryName' => 'required|string|max:255',
-        ]);
+        try {
+            $this->validate([
+                'categoryName' => 'required|string|max:255|unique:categories,name',
+            ]);
 
-        $slug = Str::slug($this->categoryName);
+            $slug = Str::slug($this->categoryName);
 
-        // Create the category
-        Category::create([
-            'name' => $this->categoryName,
-            'slug' => $slug,
-        ]);
+            Category::create([
+                'name' => $this->categoryName,
+                'slug' => $slug,
+            ]);
 
-        LivewireAlert::title('Changes saved!')
-            ->success()
-            ->show();
+            LivewireAlert::title('Created Category!')
+                ->success()
+                ->show();
 
-        // Reset the input
-    }
-
-    public function test()
-    {
-        LivewireAlert::title('Changes saved!')
-            ->success()
-            ->show();
+            $this->categoryName = '';
+        } catch (\Exception $e) {
+            LivewireAlert::title('Error')
+                ->text($e->getMessage())
+                ->error()
+                ->show();
+        }
     }
 
     public function render()

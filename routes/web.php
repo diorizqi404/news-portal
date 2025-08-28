@@ -15,6 +15,10 @@ Route::get('/articles/{slug}', function ($slug) {
     return view('articles', ['slug' => $slug]);
 })->name('articles.show');
 
+Route::get('/category/{slug}', function ($slug) {
+    return view('category', ['slug' => $slug]);
+})->name('category.show');
+
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
