@@ -27,17 +27,17 @@ Untuk dapat menjalankan proyek ini di lingkungan lokal Anda, ikuti langkah-langk
 
 ### Prasyarat Sistem
 Pastikan perangkat Anda telah terinstal perangkat lunak berikut:
-- **PHP >= 8.1**
+- **PHP >= 8.3**
 - **Composer**
 - **Node.js & NPM**
-- **Database Server** (Contoh: MySQL, MariaDB, atau PostgreSQL)
+- **MySQL**
 
 ### Langkah-langkah Instalasi
 1.  **Clone Repository**
     Buka terminal atau command prompt, lalu clone repository ini ke direktori lokal Anda.
     ```bash
-    git clone [URL_REPOSITORY_ANDA]
-    cd [NAMA_FOLDER_PROYEK]
+    git clone https://github.com/diorizqi404/news-portal.git
+    cd news-portal
     ```
 
 2.  **Install Dependensi PHP**
@@ -76,12 +76,6 @@ Pastikan perangkat Anda telah terinstal perangkat lunak berikut:
     ```
     **Penting:** Pastikan Anda sudah membuat database `nama_database_anda` di server database Anda.
 
-7.  **Jalankan Migrasi dan Seeder**
-    Buat struktur tabel di database dan isi dengan data awal (jika ada seeder).
-    ```bash
-    php artisan migrate --seed
-    ```
-
 Instalasi selesai! Proyek Anda sekarang siap untuk dijalankan.
 
 ---
@@ -106,11 +100,6 @@ Setelah instalasi berhasil, ikuti langkah berikut untuk menjalankan aplikasi. An
 
 3.  **Akses Aplikasi**
     Buka browser Anda dan kunjungi alamat berikut:
-    [http://127.0.0.1:8000](http://127.0.0.1:8000)
-
-4.  **Akun Default (Opsional)**
-    Jika Anda menjalankan *database seeder*, Anda dapat login sebagai admin dengan kredensial berikut (sesuaikan jika berbeda di file seeder Anda):
-    - **Email:** `admin@example.com`
-    - **Password:** `password`
+    [http://127.0.0.1:8000](http://127.0.0.1:8000)git 
 
 Aplikasi portal berita Anda sekarang sudah berjalan dan siap digunakan.
