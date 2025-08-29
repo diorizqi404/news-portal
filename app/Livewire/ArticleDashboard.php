@@ -5,6 +5,7 @@ namespace App\Livewire;
 use Livewire\Component;
 use Livewire\WithPagination;
 use App\Models\Article;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 
 class ArticleDashboard extends Component
 {
@@ -14,7 +15,7 @@ class ArticleDashboard extends Component
 
     public function render()
     {
-        $articles = Article::with('category')->latest()->paginate(10);
+        $articles = Article::with('category')->latest()->paginate(5);
         return view('livewire.articles.article-dashboard', [
             'articles' => $articles,
         ]);
@@ -27,5 +28,9 @@ class ArticleDashboard extends Component
             $article->delete();
             $this->resetPage();
         }
+
+        LivewireAlert::title('Article deleted successfully!')
+            ->success()
+            ->show();
     }
 }

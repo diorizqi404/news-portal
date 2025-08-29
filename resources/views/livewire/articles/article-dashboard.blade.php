@@ -18,7 +18,7 @@
                             <th class="px-3 py-2">Actions</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100" wire:poll.5s>
+                    <tbody class="divide-y divide-gray-100" wire:poll.3s>
                         @foreach ($articles as $index => $article)
                             <tr>
                                 <td class="px-3 py-2 align-top">{{ $articles->firstItem() + $index }}</td>
@@ -29,11 +29,11 @@
                                     <div class="flex gap-2">
                                         <a href="{{ route('articles.edit', $article->id) }}"
                                             class="px-4 py-2 bg-blue-500 text-white rounded-sm">Edit</a>
-                                        <flux:modal.trigger name="delete-profile">
+                                        <flux:modal.trigger name="delete-article-{{ $article->id }}">
                                             <flux:button variant="danger">Delete</flux:button>
                                         </flux:modal.trigger>
 
-                                        <flux:modal name="delete-profile" class="min-w-[22rem]">
+                                        <flux:modal name="delete-article-{{ $article->id }}" class="min-w-[22rem]">
                                             <div class="space-y-6">
                                                 <div>
                                                     <flux:heading size="lg">Delete Article?</flux:heading>
@@ -50,7 +50,9 @@
                                                         <flux:button variant="ghost">Cancel</flux:button>
                                                     </flux:modal.close>
 
-                                                    <flux:button type="submit" variant="danger" wire:click="delete({{ $article->id }})">Delete Article</flux:button>
+                                                    <flux:modal.close>
+                                                        <flux:button type="button" variant="danger" wire:click="delete({{ $article->id }})">Delete Article</flux:button>
+                                                    </flux:modal.close>
                                                 </div>
                                             </div>
                                         </flux:modal>

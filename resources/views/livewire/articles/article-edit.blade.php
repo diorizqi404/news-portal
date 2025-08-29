@@ -20,9 +20,25 @@
                 <flux:text class="text-sm text-red-600">{{ $message }}</flux:text>
             @enderror
 
-            <flux:input type="file" wire:model="image" label="Thumbnail" />
+            <div class="flex space-x-4">
+                <div>
+                    <flux:input type="file" wire:model="image" label="Thumbnail" />
+                    <div wire:loading wire:target="image" class="text-sm text-gray-500">Uploading image…</div>
+                </div>
+
+                @if ($image)
+                    <div class="mt-2">
+                        <flux:text class="text-sm text-gray-500">Preview:</flux:text>
+                        <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="mt-2 rounded w-64 h-auto" />
+                    </div>
+                @elseif ($existingImage)
+                    <div class="mt-2">
+                        <flux:text class="text-sm text-gray-500">Preview:</flux:text>
+                        <img src="{{ $existingImage }}" alt="Image Preview" class="mt-2 rounded w-64 h-auto" />
+                    </div>
+                @endif
+            </div>
             <flux:textarea label="Content" wire:model.defer="content" placeholder="Article content" />
-            <div wire:loading wire:target="image" class="text-sm text-gray-500">Uploading image…</div>
         </div>
 
         <div class="space-y-2">

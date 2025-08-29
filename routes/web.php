@@ -26,6 +26,11 @@ Route::view('dashboard', 'dashboard')
 Route::get('dashboard/article', ArticleDashboard::class)->name('articles.dashboard');
 Route::get('dashboard/article/{id}/edit', ArticleEdit::class)->name('articles.edit');
 
+Route::get('/search', function () {
+    $q = request('q');
+    return view('search', ['q' => $q]);
+})->name('search');
+
 
 Route::middleware(['auth'])->group(function () {
     Route::redirect('settings', 'settings/profile');

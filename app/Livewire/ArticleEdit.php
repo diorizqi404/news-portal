@@ -31,9 +31,6 @@ class ArticleEdit extends Component
         'category_id' => 'required|exists:categories,id',
     ];
 
-    /**
-     * Mount the component with an article id (from route or when embedding component).
-     */
     public function mount($id = null)
     {
         $this->articleId = $id;
@@ -44,7 +41,7 @@ class ArticleEdit extends Component
             $this->title = $article->title;
             $this->content = $article->content;
             $this->category_id = $article->category_id;
-            $this->existingImage = $article->image; // could be URL
+            $this->existingImage = $article->image;
         }
     }
 
@@ -55,14 +52,11 @@ class ArticleEdit extends Component
 
             $article = Article::findOrFail($this->articleId);
 
-            // handle image upload if new file provided
             if ($this->image) {
                 $path = $this->image->store('articles', 'public');
                 $url = Storage::url($path);
 
-                // optionally delete old local storage image if it looks like a storage path
                 if ($this->existingImage && str_contains($this->existingImage, '/storage/')) {
-                    // Get relative path after '/storage/'
                     $pos = strpos($this->existingImage, '/storage/');
                     if ($pos !== false) {
                         $relative = substr($this->existingImage, $pos + strlen('/storage/'));
@@ -81,6 +75,7 @@ class ArticleEdit extends Component
             LivewireAlert::title('Article updated successfully!')
                 ->success()
                 ->show();
+            return redirect()->route('articles.dashboard');
         } catch (Throwable $e) {
             LivewireAlert::title('Failed to update article')
                 ->error()
