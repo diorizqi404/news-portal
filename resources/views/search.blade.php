@@ -36,25 +36,31 @@
     @include('partials.navbar')
 
     <main class="flex-1 py-8">
-        <div class="max-w-3xl mx-auto px-4">
+        <div class="max-w-5xl mx-auto px-4">
             <h1 class="text-xl font-semibold mb-4">Search results for "{{ $q }}"</h1>
 
             @forelse ($articles as $article)
-                <article class="mb-6">
-                    <a href="{{ route('articles.show', $article->slug) }}">
-                        <h2 class="text-2xl font-bold hover:text-blue-500">{{ $article->title }}</h2>
-                    </a>
-                    <div class="mt-1 text-sm text-gray-500">
-                        <span>Published: {{ $article->created_at->format('F j, Y') }}</span>
-                        @if ($article->category)
-                            <span class="mx-2">•</span>
-                            <span class="text-sm text-gray-600">{{ $article->category->name }}</span>
-                        @endif
-                    </div>
-                    <p class="mt-2 text-gray-700">{{ Str::limit($article->content, 150) }}</p>
-                    {{-- <a href="{{ route('articles.show', $article->slug) }}" class="text-blue-500 hover:underline">Read
+                <a href="{{ route('articles.show', $article->slug) }}">
+                    <div class="flex space-x-2">
+                        <img src="{{ asset($article->image) }}" alt="{{ $article->title }}"
+                            class="w-72 object-cover rounded-lg mt-2" />
+                        <article class="mb-6">
+                            <a href="{{ route('articles.show', $article->slug) }}">
+                                <h2 class="text-2xl font-bold hover:text-blue-500">{{ $article->title }}</h2>
+                            </a>
+                            <div class="mt-1 text-sm text-gray-500">
+                                <span>Published: {{ $article->created_at->format('F j, Y') }}</span>
+                                @if ($article->category)
+                                    <span class="mx-2">•</span>
+                                    <span class="text-sm text-gray-600">{{ $article->category->name }}</span>
+                                @endif
+                            </div>
+                            <p class="mt-2 text-gray-700">{{ Str::limit($article->content, 150) }}</p>
+                            {{-- <a href="{{ route('articles.show', $article->slug) }}" class="text-blue-500 hover:underline">Read
                         more</a> --}}
-                </article>
+                        </article>
+                    </div>
+                </a>
             @empty
                 <p class="text-gray-600">No results found for "{{ $q }}".</p>
             @endforelse
