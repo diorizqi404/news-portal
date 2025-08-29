@@ -10,6 +10,7 @@ class ArticleList extends Component
     public function render()
     {
         $articles = Article::with('category')->orderBy('created_at', 'desc')->paginate(6);
-        return view('livewire.articles.article-list', compact('articles'));
+        $articlesTrending = Article::with('category')->orderBy('views', 'desc')->take(3)->get();
+        return view('livewire.articles.article-list', compact('articles', 'articlesTrending'));
     }
 }

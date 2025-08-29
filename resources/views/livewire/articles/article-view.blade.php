@@ -1,5 +1,6 @@
 @php
     $article = \App\Models\Article::where('slug', $slug)->firstOrFail();
+    $article->increment('views');
 @endphp
 
 <div>
