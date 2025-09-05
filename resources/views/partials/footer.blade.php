@@ -43,7 +43,7 @@
 
             <div class="border-t border-gray-300 pt-6 mt-8">
                 <p class="text-center text-gray-600 text-sm">
-                    © 2025 News Portal. All rights reserved.
+                    © 2025 News Portal. Created by <a class="text-blue-500" href="https://linkedin.com/in/diorizqi" target="_blank">dev404</a> and <a class="text-blue-500" href="https://linkedin.com/in/FiezaGhifari" target="_blank">glaezz</a>
                 </p>
             </div>
         </div>

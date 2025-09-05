@@ -21,7 +21,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Search results - News Portal</title>
-
+    <link rel="icon"
+        href="https://kompaspedia.kompas.id/wp-content/uploads/2020/07/logo_Politeknik-Elektronika-Negeri-Surabaya-thumb.png"
+        sizes="any">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         [x-cloak] {
