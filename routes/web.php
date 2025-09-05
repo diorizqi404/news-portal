@@ -5,6 +5,7 @@ use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
 use App\Livewire\ArticleEdit;
+use App\Livewire\CategoryEdit;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +26,7 @@ Route::view('dashboard', 'dashboard')
 
 Route::get('dashboard/article', ArticleDashboard::class)->name('articles.dashboard');
 Route::get('dashboard/article/{id}/edit', ArticleEdit::class)->name('articles.edit');
+Route::get('dashboard/category/{id}/edit', CategoryEdit::class)->name('category.edit');
 
 Route::get('/search', function () {
     $q = request('q');

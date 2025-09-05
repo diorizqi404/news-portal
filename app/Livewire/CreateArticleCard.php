@@ -26,7 +26,7 @@ class CreateArticleCard extends Component
 
     protected $rules = [
         'title' => 'required|string|max:255|unique:articles,title',
-        'image' => 'nullable|image|max:512',
+        'image' => 'nullable|image|max:2048',
         'content' => 'required|string',
         'category_id' => 'required|exists:categories,id',
     ];

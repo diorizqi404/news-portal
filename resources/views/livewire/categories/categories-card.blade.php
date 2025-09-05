@@ -1,6 +1,6 @@
-<div>
+<div class="flex space-x-8">
     {{-- To attain knowledge, add things every day; To attain wisdom, subtract things every day. --}}
-    <flux:card class="space-y-6">
+    <flux:card class="space-y-6 w-96">
         <div>
             <flux:heading size="lg">Create new category</flux:heading>
             <flux:text class="mt-2">Please fill in the details below.</flux:text>
@@ -16,7 +16,7 @@
     </flux:card>
 
     <div class="relative rounded-xl border border-neutral-200 dark:border-neutral-700 p-4 bg-white">
-        <h3 class="text-lg font-semibold mb-4">Articles</h3>
+        <h3 class="text-lg font-semibold mb-4">Categories</h3>
 
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
@@ -36,8 +36,8 @@
                             <td class="px-3 py-2">{{ optional($category->updated_at)->diffForHumans() }}</td>
                             <td class="px-3 py-2">
                                 <div class="flex gap-2">
-                                    {{-- <a href="{{ route('articles.edit', $category->id) }}"
-                                        class="px-4 py-2 bg-blue-500 text-white rounded-sm">Edit</a> --}}
+                                    <a href="{{ route('category.edit', $category->id) }}"
+                                        class="px-4 py-2 bg-blue-500 text-white rounded-sm">Edit</a>
                                     <flux:modal.trigger name="delete-article-{{ $category->id }}">
                                         <flux:button variant="danger">Delete</flux:button>
                                     </flux:modal.trigger>

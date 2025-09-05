@@ -68,6 +68,9 @@ class ArticleEdit extends Component
             }
 
             $article->title = $this->title;
+
+            $newSlug = Str::slug($article->title);
+            $article->slug = $newSlug;
             $article->content = $this->content;
             $article->category_id = $this->category_id;
             $article->save();

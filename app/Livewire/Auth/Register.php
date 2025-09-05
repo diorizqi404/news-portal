@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Livewire\Attributes\Layout;
 use Livewire\Component;
+use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
 
 #[Layout('components.layouts.auth')]
 class Register extends Component
@@ -36,7 +37,11 @@ class Register extends Component
 
         event(new Registered(($user = User::create($validated))));
 
-        Auth::login($user);
+        // Auth::login($user);
+
+            LivewireAlert::title('Created Writer Account!')
+                ->success()
+                ->show();
 
         $this->redirect(route('dashboard', absolute: false), navigate: true);
     }
