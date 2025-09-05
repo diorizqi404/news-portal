@@ -41,9 +41,9 @@
 
             @forelse ($articles as $article)
                 <a href="{{ route('articles.show', $article->slug) }}">
-                    <div class="flex space-x-2">
+                    <div class="flex space-x-2 flex-col md:flex-row">
                         <img src="{{ asset($article->image) }}" alt="{{ $article->title }}"
-                            class="w-72 object-cover rounded-lg mt-2" />
+                            class="md:w-72 w-full object-cover rounded-lg mt-2 mb-2 md:mb-0" />
                         <article class="mb-6">
                             <a href="{{ route('articles.show', $article->slug) }}">
                                 <h2 class="text-2xl font-bold hover:text-blue-500">{{ $article->title }}</h2>
@@ -62,7 +62,7 @@
                     </div>
                 </a>
             @empty
-                <p class="text-gray-600">No results found for "{{ $q }}".</p>
+                <p class="text-gray-600">Category Empty.</p>
             @endforelse
 
             <div class="mt-6">

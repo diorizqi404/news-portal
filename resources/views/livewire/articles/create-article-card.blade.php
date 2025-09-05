@@ -20,31 +20,27 @@
                 <flux:text class="text-sm text-red-600">{{ $message }}</flux:text>
             @enderror
 
-            {{-- Tags multi-select --}}
-            {{-- <flux:select class="h-96" wire:model.defer="tag_ids" multiple placeholder="Choose tags...">
-                @foreach ($tags as $tag)
-                    <flux:select.option value="{{ $tag->id }}">{{ $tag->name }}</flux:select.option>
-                @endforeach
-            </flux:select>
-            <flux:text class="text-sm text-gray-500">Hold ctrl/cmd to select multiple tags.</flux:text> --}}
-
             <div class="flex space-x-4">
                 <div>
-                    <flux:input type="file" wire:model="image" label="Thumbnail" />
-                <div wire:loading wire:target="image" class="text-sm text-gray-500">Uploading image…</div>
+                    <flux:input id="thumbnail" type="file" wire:model="image" label="Thumbnail" />
+                    {{-- <div wire:loading wire:target="image" class="text-sm text-gray-500">Uploading image…</div> --}}
                 </div>
 
-                @if ($image)
-                    <div class="mt-2">
-                        <flux:text class="text-sm text-gray-500">Preview:</flux:text>
-                        <img src="{{ $image->temporaryUrl() }}" alt="Image Preview" class="mt-2 rounded w-64 h-auto" />
-                    </div>
-                @endif
+
+                <div class="mt-2" wire:ignore>
+                    <flux:text class="text-sm text-gray-500">Preview:</flux:text>
+                    <img id="preview" src="https://placehold.co/100x40" alt="Image Preview" class="mt-2 rounded w-64 h-auto" />
+                </div>
+
             </div>
 
             <flux:textarea label="Content" wire:model.defer="content" placeholder="Article content" />
+            {{-- <div wire:ignore>
+                <div id="editor" wire:model.defer="content"></div>
+            </div>
+            <input type="hidden" id="content" wire:model.defer="content"> --}}
         </div>
-        
+
         <div class="space-y-2">
             <flux:button variant="primary" wire:click.prevent="createArticle" wire:loading.attr="disabled"
                 wire:target="createArticle,image" class="w-full">
@@ -54,3 +50,45 @@
         </div>
     </flux:card>
 </div>
+
+@script
+    <script>
+        const imgInput = document.getElementById('thumbnail');
+        const preview = document.getElementById('preview');
+
+        imgInput.addEventListener('change', (e) => {
+            // console.log(e.target.files[0]);
+            const file = e.target.files[0]
+            if (file) {
+                console.log(file);
+                preview.src = URL.createObjectURL(file);
+            } else {
+                preview.src = "https://placehold.co/100x40";
+            }
+        })
+
+        const quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+
+        quill.on('text-change', function() {
+            let html = quill.root.innerHTML;
+            document.getElementById('content').value = html;
+
+            // trigger input agar Livewire update
+            document.getElementById('content').dispatchEvent(new Event('input'));
+        });
+
+        Livewire.on('article-saved', () => {
+            quill.setText('');
+        });
+    </script>
+@endscript
+
+{{-- Tags multi-select --}}
+{{-- <flux:select class="h-96" wire:model.defer="tag_ids" multiple placeholder="Choose tags...">
+                @foreach ($tags as $tag)
+                    <flux:select.option value="{{ $tag->id }}">{{ $tag->name }}</flux:select.option>
+                @endforeach
+            </flux:select>
+            <flux:text class="text-sm text-gray-500">Hold ctrl/cmd to select multiple tags.</flux:text> --}}

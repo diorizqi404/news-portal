@@ -25,8 +25,8 @@ class CreateArticleCard extends Component
     public $categories;
 
     protected $rules = [
-        'title' => 'required|string|max:255',
-        'image' => 'nullable|image|max:10240',
+        'title' => 'required|string|max:255|unique:articles,title',
+        'image' => 'nullable|image|max:512',
         'content' => 'required|string',
         'category_id' => 'required|exists:categories,id',
     ];
@@ -52,7 +52,7 @@ class CreateArticleCard extends Component
                 'image'       => $url,
             ]);
 
-            // clear fields
+            $this->dispatch('article-saved');
             $this->reset(['title', 'image', 'content', 'category_id']);
 
             LivewireAlert::title('Article created successfully!')

@@ -15,7 +15,7 @@ class ArticleDashboard extends Component
 
     public function render()
     {
-        $articles = Article::with('category')->latest()->paginate(5);
+        $articles = Article::with('category')->orderBy('updated_at', 'desc')->paginate(5);
         return view('livewire.articles.article-dashboard', [
             'articles' => $articles,
         ]);

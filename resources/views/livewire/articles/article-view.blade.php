@@ -1,6 +1,17 @@
 @php
+    use Mews\Purifier\Facades\Purifier;
     $article = \App\Models\Article::where('slug', $slug)->firstOrFail();
     $article->increment('views');
+    $content = $article->content;
+    $content = Purifier::clean($content);
+
+    use League\CommonMark\CommonMarkConverter;
+
+    $converter = new CommonMarkConverter([
+        'html_input' => 'strip',
+        'allow_unsafe_links' => false,
+    ]);
+    $html = $converter->convert($article->content)->getContent();
 @endphp
 
 <div>
@@ -11,5 +22,6 @@
     </div>
 
     <img src="{{ asset($article->image) }}" alt="{{ $article->title }}" class="w-full h-64 object-cover rounded-lg my-6" />
-    <p class="text-justify text-xl">{{ $article->content }}</p>
+    <p class="text-justify text-xl" style="white-space: pre-line;">{!! $html !!}</p>
+    {{-- <p class="text-justify text-xl" style="white-space: pre-line;">{!! $html !!}</p> --}}
 </div>

@@ -6,10 +6,15 @@ use App\Models\Category;
 use Livewire\Component;
 use Illuminate\Support\Str;
 use Jantinnerezo\LivewireAlert\Facades\LivewireAlert;
+use Livewire\WithPagination;
 
 class CategoriesCard extends Component
 {
     public $categoryName;
+
+    use WithPagination;
+
+    protected $paginationTheme = 'tailwind';
 
     public function createCategory()
     {
@@ -38,8 +43,23 @@ class CategoriesCard extends Component
         }
     }
 
+    public function delete($id)
+    {
+        $category = Category::find($id);
+        if ($category) {
+            $category->delete();
+            $this->resetPage();
+        }
+
+        LivewireAlert::title('Category deleted successfully!')
+            ->success()
+            ->show();
+    }
+
     public function render()
     {
-        return view('livewire.categories.categories-card');
+        $categories = Category::orderBy('created_at', 'desc')->paginate(5);
+        // $categories is a paginator instance, so you can call firstItem() in the Blade view
+        return view('livewire.categories.categories-card', compact('categories'));
     }
 }
