@@ -1,5 +1,5 @@
 @php
-  $article = \App\Models\Article::where('slug', $slug)->firstOrFail();
+$article = \App\Models\Article::where('slug', $slug)->firstOrFail();
 @endphp
 
 <!DOCTYPE html>
@@ -16,7 +16,11 @@
             display: none !important
         }
     </style>
-    <script src="https://unpkg.com/alpinejs" defer></script>
+    <!-- <script src="https://unpkg.com/alpinejs" defer></script> -->
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <link rel="stylesheet" href="https://unpkg.com/@tailwindcss/typography@0.2.0/dist/typography.min.css" />
+
 
 </head>
 

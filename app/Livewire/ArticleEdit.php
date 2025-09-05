@@ -87,6 +87,7 @@ class ArticleEdit extends Component
         }
     }
 
+
     public function render()
     {
         $this->categories = Category::all();

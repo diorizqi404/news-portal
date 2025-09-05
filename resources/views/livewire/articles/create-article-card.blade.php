@@ -12,12 +12,12 @@
             <flux:select wire:model.defer="category_id" placeholder="Choose Category...">
                 <flux:select.option value="">Chose Category</flux:select.option>
                 @foreach ($categories as $category)
-                    <flux:select.option value="{{ $category->id }}">{{ $category->name }}</flux:select.option>
+                <flux:select.option value="{{ $category->id }}">{{ $category->name }}</flux:select.option>
                 @endforeach
             </flux:select>
 
             @error('category_id')
-                <flux:text class="text-sm text-red-600">{{ $message }}</flux:text>
+            <flux:text class="text-sm text-red-600">{{ $message }}</flux:text>
             @enderror
 
             <div class="flex space-x-4">
@@ -34,7 +34,10 @@
 
             </div>
 
-            <flux:textarea label="Content" wire:model.defer="content" placeholder="Article content" />
+
+            <div wire:ignore>
+                <flux:textarea id="content" label="Content" wire:model.defer="content" placeholder="Article content" />
+            </div>
             {{-- <div wire:ignore>
                 <div id="editor" wire:model.defer="content"></div>
             </div>
@@ -52,43 +55,78 @@
 </div>
 
 @script
-    <script>
-        const imgInput = document.getElementById('thumbnail');
-        const preview = document.getElementById('preview');
+<script>
+    const imgInput = document.getElementById('thumbnail');
+    const preview = document.getElementById('preview');
 
-        imgInput.addEventListener('change', (e) => {
-            // console.log(e.target.files[0]);
-            const file = e.target.files[0]
-            if (file) {
-                console.log(file);
-                preview.src = URL.createObjectURL(file);
-            } else {
-                preview.src = "https://placehold.co/100x40";
-            }
-        })
+    imgInput.addEventListener('change', (e) => {
+        // console.log(e.target.files[0]);
+        const file = e.target.files[0]
+        if (file) {
+            console.log(file);
+            preview.src = URL.createObjectURL(file);
+        } else {
+            preview.src = "https://placehold.co/100x40";
+        }
+    })
 
-        const quill = new Quill('#editor', {
-            theme: 'snow'
-        });
+    const easyMDE = new EasyMDE({
+        element: document.getElementById('content'),
+        spellChecker: false,
+        placeholder: "Write your post in Markdown...",
+        autosave: {
+            enabled: false,
+            uniqueId: "post_content",
+            delay: 1000,
+        },
+        previewRender: function(plainText) {
+            // Use marked + DOMPurify for rendering and sanitizing
+            const html = DOMPurify.sanitize(marked.parse(plainText));
+            // Add prose class to preview element after rendering
+            setTimeout(() => {
+                const previewEls = document.getElementsByClassName('editor-preview');
+                for (let el of previewEls) {
+                    el.classList.add('prose');
+                }
+            }, 0);
 
-        quill.on('text-change', function() {
-            let html = quill.root.innerHTML;
-            document.getElementById('content').value = html;
+            return html;
+        }
+    });
 
-            // trigger input agar Livewire update
-            document.getElementById('content').dispatchEvent(new Event('input'));
-        });
+    easyMDE.codemirror.on("change", function() {
+        document.getElementById('content').value = easyMDE.value();
+        document.getElementById('content').dispatchEvent(new Event('input'));
 
-        Livewire.on('article-saved', () => {
-            quill.setText('');
-        });
-    </script>
+    });
+
+
+
+
+    const quill = new Quill('#editor', {
+        theme: 'snow'
+    });
+
+    quill.on('text-change', function() {
+        let html = quill.root.innerHTML;
+        document.getElementById('content').value = html;
+
+        // trigger input agar Livewire update
+        document.getElementById('content').dispatchEvent(new Event('input'));
+    });
+
+    Livewire.on('article-saved', () => {
+        // Reset EasyMDE autosave
+        localStorage.removeItem('easyMDE-autosave-post_content');
+        easyMDE.value("");
+    });
+</script>
 @endscript
 
 {{-- Tags multi-select --}}
 {{-- <flux:select class="h-96" wire:model.defer="tag_ids" multiple placeholder="Choose tags...">
                 @foreach ($tags as $tag)
                     <flux:select.option value="{{ $tag->id }}">{{ $tag->name }}</flux:select.option>
-                @endforeach
-            </flux:select>
-            <flux:text class="text-sm text-gray-500">Hold ctrl/cmd to select multiple tags.</flux:text> --}}
+@endforeach
+</flux:select>
+<flux:text class="text-sm text-gray-500">Hold ctrl/cmd to select multiple tags.</flux:text> --}}
